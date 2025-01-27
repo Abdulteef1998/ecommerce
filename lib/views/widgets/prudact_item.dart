@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/prudact_item_model.dart';
+import '../../utils/app_colors.dart';
 
 class PrudactItem extends StatelessWidget {
   final ProductItemModel productItem;
@@ -52,7 +53,7 @@ class PrudactItem extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .titleMedium!
-              .copyWith(color: Colors.grey),
+              .copyWith(color: AppColors.grey2),
         ),
         Text(
           productItem.category,
