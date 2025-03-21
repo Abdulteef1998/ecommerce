@@ -18,6 +18,16 @@ final class QuantityCounterLoaded extends ProductDetailsState {
   QuantityCounterLoaded({required this.value});
 }
 
+final class ProductAddToCart extends ProductDetailsState {
+  final String productId;
+
+  ProductAddToCart({required this.productId});
+}
+
+final class ProductAddingToCart extends ProductDetailsState {
+   
+   
+}
 final class SizeSelected extends ProductDetailsState {
   final ProductSize size;
 

@@ -14,7 +14,9 @@ class PrudactDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final cubit = BlocProvider.of<ProductDetailsCubit>(context);
     return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+      bloc: cubit,
       buildWhen: (previous, current) =>
           current is ProductDetailsLoading ||
           current is ProductDetailsLoaded ||
@@ -116,8 +118,7 @@ class PrudactDetailsPage extends StatelessWidget {
                                 ),
                                 BlocBuilder<ProductDetailsCubit,
                                     ProductDetailsState>(
-                                  bloc: BlocProvider.of<ProductDetailsCubit>(
-                                      context),
+                                  bloc: cubit,
                                   buildWhen: (previous, current) =>
                                       current is QuantityCounterLoaded ||
                                       current is ProductDetailsLoaded,
@@ -131,7 +132,7 @@ class PrudactDetailsPage extends StatelessWidget {
                                       );
                                     } else if (state is ProductDetailsLoaded) {
                                       return CounterWidget(
-                                          value: state.productI.qantity,
+                                          value: 1,
                                           productId: product.id,
                                           cubit: BlocProvider.of<
                                               ProductDetailsCubit>(context));
@@ -154,8 +155,7 @@ class PrudactDetailsPage extends StatelessWidget {
                             ),
                             BlocBuilder<ProductDetailsCubit,
                                 ProductDetailsState>(
-                              bloc:
-                                  BlocProvider.of<ProductDetailsCubit>(context),
+                              bloc: cubit,
                               buildWhen: (previous, current) =>
                                   current is SizeSelected ||
                                   current is ProductDetailsLoaded,
@@ -167,10 +167,12 @@ class PrudactDetailsPage extends StatelessWidget {
                                           padding: const EdgeInsets.only(
                                               top: 6, right: 8),
                                           child: InkWell(
-                                            onTap: () => BlocProvider.of<
-                                                        ProductDetailsCubit>(
-                                                    context)
-                                                .selectSize(size),
+                                            onTap: () {
+                                              BlocProvider.of<
+                                                          ProductDetailsCubit>(
+                                                      context)
+                                                  .selectSize(size);
+                                            },
                                             child: DecoratedBox(
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
@@ -253,18 +255,55 @@ class PrudactDetailsPage extends StatelessWidget {
                                       .titleLarge!
                                       .copyWith(fontWeight: FontWeight.bold),
                                 ),
-                                ElevatedButton.icon(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.primary,
-                                    foregroundColor: AppColors.white,
-                                  ),
-                                  label: const Text('Add to Cart'),
-                                  icon: const Icon(
-                                    Icons.shopping_bag_outlined,
-                                    color: AppColors.white,
-                                  ),
-                                )
+                                BlocBuilder<ProductDetailsCubit,
+                                        ProductDetailsState>(
+                                    bloc: cubit,
+                                    buildWhen: (previous, current) =>
+                                        current is ProductAddToCart ||
+                                        current is ProductAddingToCart,
+                                    builder: (context, state) {
+                                      if (state is ProductAddingToCart) {
+                                        return ElevatedButton(
+                                          onPressed: null,
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.primary,
+                                            foregroundColor: AppColors.white,
+                                          ),
+                                          child: CircularProgressIndicator
+                                              .adaptive(),
+                                        );
+                                      } else if (state is ProductAddToCart) {
+                                        return ElevatedButton(
+                                          onPressed: null,
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.primary,
+                                            foregroundColor: AppColors.white,
+                                          ),
+                                          child: const Text('Added To Cart'),
+                                        );
+                                      }
+                                      return ElevatedButton.icon(
+                                        onPressed: () {
+                                          if (cubit.selectedSize != null) {
+                                            cubit.addToCart(productId);
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                                    content: Text(
+                                                        'Please Select size')));
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.primary,
+                                          foregroundColor: AppColors.white,
+                                        ),
+                                        label: const Text('Add to Cart'),
+                                        icon: const Icon(
+                                          Icons.shopping_bag_outlined,
+                                          color: AppColors.white,
+                                        ),
+                                      );
+                                    })
                               ],
                             )
                           ],
