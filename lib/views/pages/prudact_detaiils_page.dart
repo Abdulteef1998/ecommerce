@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecomerece/models/prudact_item_model.dart';
 import 'package:ecomerece/utils/app_colors.dart';
 import 'package:ecomerece/view_models/product_details_cubit.dart';
 import 'package:ecomerece/views/widgets/counter_widget.dart';
@@ -14,11 +15,14 @@ class PrudactDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-      buildWhen: (previous, current) => current is! QuantityCounterLoaded,
+      buildWhen: (previous, current) =>
+          current is ProductDetailsLoading ||
+          current is ProductDetailsLoaded ||
+          current is ProductDetailsError,
       builder: (context, state) {
         if (state is ProductDetailsLoading) {
           return Scaffold(
-            body: Center(
+            body: const Center(
               child: CircularProgressIndicator.adaptive(),
             ),
           );
@@ -33,7 +37,7 @@ class PrudactDetailsPage extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   elevation: 0,
                   centerTitle: true,
-                  title: Text('Proudact Details'),
+                  title: const Text('Proudact Details'),
                   actions: [
                     IconButton(
                         onPressed: () {},
@@ -72,6 +76,7 @@ class PrudactDetailsPage extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(36),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,6 +141,131 @@ class PrudactDetailsPage extends StatelessWidget {
                                   },
                                 )
                               ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              'Size',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            BlocBuilder<ProductDetailsCubit,
+                                ProductDetailsState>(
+                              bloc:
+                                  BlocProvider.of<ProductDetailsCubit>(context),
+                              buildWhen: (previous, current) =>
+                                  current is SizeSelected ||
+                                  current is ProductDetailsLoaded,
+                              builder: (context, state) {
+                                return Row(
+                                  children: ProductSize.values
+                                      .map(
+                                        (size) => Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 6, right: 8),
+                                          child: InkWell(
+                                            onTap: () => BlocProvider.of<
+                                                        ProductDetailsCubit>(
+                                                    context)
+                                                .selectSize(size),
+                                            child: DecoratedBox(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: state is SizeSelected &&
+                                                        state.size == size
+                                                    ? Theme.of(context)
+                                                        .primaryColor
+                                                    : AppColors.grey2,
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(12),
+                                                child: Text(
+                                                  size.name,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelMedium!
+                                                      .copyWith(
+                                                        color:
+                                                            state is SizeSelected &&
+                                                                    state.size ==
+                                                                        size
+                                                                ? AppColors
+                                                                    .white
+                                                                : AppColors
+                                                                    .black,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                );
+                              },
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              'Description',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              product.desorption,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(color: AppColors.black45),
+                            ),
+                            const Spacer(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text.rich(
+                                  TextSpan(
+                                    text: '\$',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                    children: [
+                                      TextSpan(
+                                        text: '${product.price.toString()}',
+                                      )
+                                    ],
+                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary,
+                                    foregroundColor: AppColors.white,
+                                  ),
+                                  label: const Text('Add to Cart'),
+                                  icon: const Icon(
+                                    Icons.shopping_bag_outlined,
+                                    color: AppColors.white,
+                                  ),
+                                )
+                              ],
                             )
                           ],
                         ),
@@ -147,7 +277,7 @@ class PrudactDetailsPage extends StatelessWidget {
         } else {
           return Scaffold(
             body: Center(
-              child: Text('Something went worng'),
+              child: const Text('Something went worng'),
             ),
           );
         }

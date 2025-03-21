@@ -18,6 +18,12 @@ final class QuantityCounterLoaded extends ProductDetailsState {
   QuantityCounterLoaded({required this.value});
 }
 
+final class SizeSelected extends ProductDetailsState {
+  final ProductSize size;
+
+  SizeSelected({required this.size});
+}
+
 final class ProductDetailsError extends ProductDetailsState {
   final String message;
 

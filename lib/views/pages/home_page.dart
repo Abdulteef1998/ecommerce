@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               TabBar(
                   controller: _tabController,
                   unselectedLabelColor: AppColors.grey,
-                  tabs: [
+                  tabs: const [
                     Tab(
                       text: 'Home',
                     ),

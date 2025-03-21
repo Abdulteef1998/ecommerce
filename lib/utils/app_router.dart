@@ -17,7 +17,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider<ProductDetailsCubit>(
             create: (context) {
-              final cubit = ProductDetailsCubit();
+              final cubit = ProductDetailsCubit(context);
               cubit.getProductDetails(productId);
               return cubit;
             },

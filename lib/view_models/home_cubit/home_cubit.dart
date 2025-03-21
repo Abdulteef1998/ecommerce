@@ -11,7 +11,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeLoading());
     Future.delayed(const Duration(seconds: 1), () {
       emit(HomeLoaded(
-          carouselItems: dummyHomeCarouselItems, products: dummyPrudactIs));
+          carouselItems: dummyHomeCarouselItems, products: dummyProducts));
     });
   }
 }
