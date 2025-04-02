@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:ecomerece/models/Add_to_cart_model.dart';
+import 'package:ecomerece/models/prudact_item_model.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
-import '../models/prudact_item_model.dart';
 
 part 'product_details_state.dart';
 
@@ -26,7 +25,10 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   void addToCart(String prodctId) {
     emit(ProductAddingToCart());
     final cartItem = AddToCartModel(
-        productId: prodctId, size: selectedSize!, qantity: quantity);
+        id: DateTime.now().toIso8601String(),
+        product: dummyProducts.firstWhere((item) => item.id == prodctId),
+        size: selectedSize!,
+        quantity: quantity);
     dummyCart.add(cartItem);
     Future.delayed(const Duration(seconds: 1), () {
       emit(ProductAddToCart(productId: prodctId));

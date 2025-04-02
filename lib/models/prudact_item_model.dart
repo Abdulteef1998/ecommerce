@@ -24,48 +24,73 @@ class ProductItemModel {
   final String id;
   final String name;
   final String imgUrl;
-  final String desorption;
+  final String description;
   final double price;
   final bool isFavorite;
   final String category;
   final double averageRate;
-  final int qantity;
 
   ProductItemModel({
     required this.id,
     required this.name,
     required this.imgUrl,
-    this.desorption =
-        'Lorem ipsum is simply dummy text in the printing typestates',
+    this.description =
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
     required this.price,
     this.isFavorite = false,
     required this.category,
     this.averageRate = 4.5,
-    this.qantity = 1,
   });
 
-  // Implementing the copyWith method
   ProductItemModel copyWith({
     String? id,
     String? name,
     String? imgUrl,
-    String? desorption,
+    String? description,
     double? price,
     bool? isFavorite,
     String? category,
     double? averageRate,
-    int? qantity,
+    int? quantity,
+    ProductSize? size,
   }) {
     return ProductItemModel(
       id: id ?? this.id,
       name: name ?? this.name,
       imgUrl: imgUrl ?? this.imgUrl,
-      desorption: desorption ?? this.desorption,
+      description: description ?? this.description,
       price: price ?? this.price,
       isFavorite: isFavorite ?? this.isFavorite,
       category: category ?? this.category,
       averageRate: averageRate ?? this.averageRate,
-      qantity: qantity ?? this.qantity,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'id': id});
+    result.addAll({'name': name});
+    result.addAll({'imgUrl': imgUrl});
+    result.addAll({'description': description});
+    result.addAll({'price': price});
+    // result.addAll({'isFavorite': isFavorite});
+    result.addAll({'category': category});
+    result.addAll({'averageRate': averageRate});
+
+    return result;
+  }
+
+  factory ProductItemModel.fromMap(Map<String, dynamic> map) {
+    return ProductItemModel(
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      imgUrl: map['imgUrl'] ?? '',
+      description: map['description'] ?? '',
+      price: map['price']?.toDouble() ?? 0.0,
+      // isFavorite: map['isFavorite'] ?? false,
+      category: map['category'] ?? '',
+      averageRate: map['averageRate']?.toDouble() ?? 0.0,
     );
   }
 }
@@ -154,5 +179,4 @@ List<ProductItemModel> dummyProducts = [
     price: 10,
     category: 'Clothes',
   ),
-  // Add the other products as necessary...
 ];

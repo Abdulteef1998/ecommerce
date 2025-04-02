@@ -1,9 +1,9 @@
 import 'package:ecomerece/utils/app_routes.dart';
+import 'package:ecomerece/view_models/product_details_cubit/product_details_cubit.dart';
 import 'package:ecomerece/views/pages/custom_bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../view_models/product_details_cubit.dart';
 import '../views/pages/prudact_detaiils_page.dart';
 
 class AppRouter {

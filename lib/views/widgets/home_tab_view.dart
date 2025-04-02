@@ -49,7 +49,7 @@ class HomeTabView extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 24,
               ),
               Row(

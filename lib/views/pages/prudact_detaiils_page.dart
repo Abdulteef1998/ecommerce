@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecomerece/models/prudact_item_model.dart';
 import 'package:ecomerece/utils/app_colors.dart';
-import 'package:ecomerece/view_models/product_details_cubit.dart';
+import 'package:ecomerece/view_models/product_details_cubit/product_details_cubit.dart';
 import 'package:ecomerece/views/widgets/counter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -224,7 +224,7 @@ class PrudactDetailsPage extends StatelessWidget {
                               height: 8,
                             ),
                             Text(
-                              product.desorption,
+                              product.description,
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium!

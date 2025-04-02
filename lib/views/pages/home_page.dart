@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecomerece/view_models/home_cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,57 +29,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         cubit.getHomeData();
         return cubit;
       },
-      child: Scaffold(
-          body: SafeArea(
+      child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
           ),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 25,
-                        backgroundImage: CachedNetworkImageProvider(
-                            'https://pbs.twimg.com/profile_images/1493704582505144323/Stvh3FSK_400x400.jpg'),
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Tarek Alabd',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          Text(
-                            'Let\'s go shopping!',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelSmall!
-                                .copyWith(
-                                  color: Colors.grey,
-                                ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-                      IconButton(
-                          onPressed: () {}, icon: Icon(Icons.notifications))
-                    ],
-                  ),
-                ],
-              ),
               const SizedBox(
                 height: 24,
               ),
@@ -106,7 +61,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ],
           ),
         ),
-      )),
+      ),
     );
   }
 }
